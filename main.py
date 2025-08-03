@@ -13,7 +13,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 # import constants as ct
-from pyngrok import ngrok
+
 # 修理料金や所要時間を回答するための外部データ読み込み
 from repair_data import search_repair_info
 # ★ tracebackをインポートして、より詳細なエラー情報を表示
@@ -28,9 +28,11 @@ templates = Jinja2Templates(directory="templates")
 line_bot_api = LineBotApi(os.getenv("CHANNEL_ACCESS_TOKEN"))
 handler = WebhookHandler(os.getenv("CHANNEL_SECRET"))
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-# ngrokトークンを環境変数から取得して設定
-ngrok_token = os.getenv("NGROK_AUTHTOKEN")
-ngrok.set_auth_token(ngrok_token)
+# if os.getenv("USE_NGROK") == "true":
+#     from pyngrok import ngrok
+#     # ngrokトークンを環境変数から取得して設定
+#     ngrok_token = os.getenv("NGROK_AUTHTOKEN")
+#     ngrok.set_auth_token(ngrok_token)
 
 # プルダウンメニュー呼び出し
 @app.get("/smartmenu", response_class=HTMLResponse)
