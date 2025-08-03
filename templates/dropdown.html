@@ -22,6 +22,10 @@
       const profile = await liff.getProfile();
       const user_id = profile.userId
 
+      // ✅ デバッグ用ログ出力（ここがステップ②）
+      console.log("🔍 ユーザーID:", user_id);
+      console.log("🔍 選択された機種:", model);
+
       // FastAPI に選択した機種を送る
       const res = await fetch(`https://smartmenu-api.onrender.com/api/flex_message?model=${encodeURIComponent(model)}&user_id=${encodeURIComponent(user_id)}`);
       const data = await res.json();
