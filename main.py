@@ -70,7 +70,7 @@ async def send_repair_info(model: str, user_id: str):
         # FlexMessage生成（utilsなどにまとめる）
     contents = ut.create_repair_result_flex(repair_info)
     print("✅ 作成されたFlex:", contents)
-    line_bot_api.push_message(user_id, FlexSendMessage(alt_text="修理情報", contents=contents))
+    line_bot_api.push_message(user_id, contents)
     return {"status": "ok"}
 
 # ポストバックイベント（ボタンが押されたとき）

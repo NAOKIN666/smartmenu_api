@@ -525,23 +525,7 @@ def create_model_select_menu():
         }
     }
 
-def create_repair_result_flex(results: list) -> BubbleContainer:
-    """
-    検索結果（複数）をもとに、Flex Message のコンテンツ（Bubble）を生成する。
-
-    Args:
-        results (list): search_repair_info の結果（1件以上）
-
-    Returns:
-        BubbleContainer: LINE用のFlex Messageバブル
-    """
-    # 各修理情報をTextComponentでリスト化
-    item_components = []
-    # 空のFlexはエラーになるので、代わりにテキストメッセージなど返すべき
-    if not results:
-        return TextSendMessage(text="該当する修理情報がありませんでした。")
-    # BubbleContainer 生成処理がここに必要
-    # 例：
+def create_repair_result_flex(results: list) -> FlexSendMessage:
     bubble = BubbleContainer(
         body=BoxComponent(
             layout="vertical",
@@ -554,4 +538,4 @@ def create_repair_result_flex(results: list) -> BubbleContainer:
             ]
         )
     )
-    return bubble
+    return FlexSendMessage(alt_text="修理情報", contents=bubble)
