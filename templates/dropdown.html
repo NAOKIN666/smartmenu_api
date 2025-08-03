@@ -2,22 +2,31 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>機種選択</title>
+  <title>修理機種選択</title>
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
-  <h2>修理対象の機種を選んでください</h2>
-  <form method="POST" action="/submit">
-    <select name="model" required>
-      <option value="">-- 選択してください --</option>
-      <option value="iPhone SE">iPhone SE</option>
-      <option value="iPhone 12">iPhone 12</option>
-      <option value="iPhone 13">iPhone 13</option>
-      <option value="iPhone 14">iPhone 14</option>
-      <option value="iPhone 15">iPhone 15</option>
-    </select>
-    <br><br>
-    <button type="submit">送信</button>
-  </form>
+  <h3>修理する機種を選んでください</h3>
+  <select id="model" onchange="sendRepairInfo(this.value)">
+    <option value="">-- 機種を選択 --</option>
+    <option value="iPhone 12 mini">iPhone 12 mini</option>
+    <option value="iPhone 13">iPhone 13</option>
+    <option value="iPhone 14">iPhone 14</option>
+  </select>
+
+  <script>
+    async function sendRepairInfo(model) {
+      if (!model) return;
+
+      await liff.init({ liffId: "あなたのLIFF_ID" });
+
+      // FastAPI に選択した機種を送る
+      const res = await fetch(`https://your-domain/api/flex_message?model=${encodeURIComponent(model)}`);
+      const data = await res.json();
+
+      await liff.sendMessages([ data ]);  // Flexメッセージ送信
+      liff.closeWindow(); // LIFFを閉じてLINEに戻る
+    }
+  </script>
 </body>
 </html>
