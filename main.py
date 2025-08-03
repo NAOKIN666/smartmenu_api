@@ -64,6 +64,7 @@ def handle_message(event):
 @app.get("/api/flex_message")
 async def send_repair_info(model: str, user_id: str):
     repair_info = search_repair_info(model + "画面")
+    print(f"🔍 検索結果: {repair_info}")
     if not repair_info:
         return JSONResponse(content={"type": "text", "text": "該当する修理情報が見つかりませんでした。"}, status_code=404)
         # FlexMessage生成（utilsなどにまとめる）
