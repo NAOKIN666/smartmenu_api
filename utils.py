@@ -537,8 +537,9 @@ def create_repair_result_flex(results: list) -> BubbleContainer:
     """
     # 各修理情報をTextComponentでリスト化
     item_components = []
+    # 空のFlexはエラーになるので、代わりにテキストメッセージなど返すべき
     if not results:
-        return None
+        return TextSendMessage(text="該当する修理情報がありませんでした。")
     # BubbleContainer 生成処理がここに必要
     # 例：
     bubble = BubbleContainer(
