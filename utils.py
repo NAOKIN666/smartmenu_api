@@ -5,7 +5,8 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     TemplateSendMessage, ButtonsTemplate, PostbackAction,
     QuickReply, QuickReplyButton, MessageAction,
-    FlexSendMessage
+    FlexSendMessage, BubbleContainer, BoxComponent,
+    TextComponent
 )
 from openai import OpenAI
 
@@ -523,3 +524,39 @@ def create_model_select_menu():
         }
     }
 
+def create_repair_result_flex(results: list) -> BubbleContainer:
+    """
+    検索結果（複数）をもとに、Flex Message のコンテンツ（Bubble）を生成する。
+
+    Args:
+        results (list): search_repair_info の結果（1件以上）
+
+    Returns:
+        BubbleContainer: LINE用のFlex Messageバブル
+    """
+    from linebot.models import BoxComponent, TextComponent, BubbleContainer
+
+    # 各修理情報をTextComponentでリスト化
+    item_components = []
+
+    for idx, r in enumerate(results, start=1):
+        item = TextComponent(
+            text=f"{idx}. 📱 {r['model']}\n🔧 {r['category']}\n💰 ¥{r['price']} / 🕒 約{r['time']}",
+            wrap=True,
+            size="sm",
+            margin="md"
+        )
+        item_components.append(item)
+
+    # Flex全体のレイアウトを構成
+    bubble = BubbleContainer(
+        body=BoxComponent(
+            layout="vertical",
+            contents=[
+                TextComponent(text="🔍 修理結果一覧", weight="bold", size="md", margin="none"),
+                *item_components
+            ]
+        )
+    )
+
+    return bubble

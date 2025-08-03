@@ -67,7 +67,7 @@ async def send_repair_info(model: str, user_id: str):
     if not repair_info:
         return JSONResponse(content={"type": "text", "text": "該当する修理情報が見つかりませんでした。"}, status_code=404)
         # FlexMessage生成（utilsなどにまとめる）
-    contents = ut.create_repair_result_flex(repair_info[0])
+    contents = ut.create_repair_result_flex(repair_info)
     line_bot_api.push_message(user_id, FlexSendMessage(alt_text="修理情報", contents=contents))
     return {"status": "ok"}
 
