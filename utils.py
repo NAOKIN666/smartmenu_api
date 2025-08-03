@@ -459,7 +459,7 @@ def create_model_select_menu():
                     "action": {
                         "type": "uri",
                         "label": "iPhone",
-                        "uri": "https://liff.line.me/2007869717-lEOgQPdR"
+                        "uri": "https://liff.line.me/2007870078-m2zAQllJ"
                     }
                 },
                 {
