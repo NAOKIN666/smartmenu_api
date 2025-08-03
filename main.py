@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Header, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -60,6 +60,16 @@ async def callback(request: Request, x_line_signature: str = Header(None)):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     ut.handle_user_message(event, line_bot_api, client, search_repair_info)
+
+@app.get("/api/flex_message")
+async def send_repair_info(model: str, user_ID: str):
+    repair_info = search_repair_info(model + "画面")
+    if not repair_info:
+        return JSONResponse(content={"type": "text", "text": "該当する修理情報が見つかりませんでした。"}, status_code=404)
+        # FlexMessage生成（utilsなどにまとめる）
+    contents = ut.create_repair_result_flex(repair_info[0])
+    line_bot_api.push_message(user_ID, FlexSendMessage(alt_text="修理情報", contents=contents))
+    return {"status": "ok"}
 
 # ポストバックイベント（ボタンが押されたとき）
 @handler.add(PostbackEvent)

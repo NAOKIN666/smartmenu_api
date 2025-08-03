@@ -18,13 +18,14 @@
     async function sendRepairInfo(model) {
       if (!model) return;
 
-      await liff.init({ liffId: "あなたのLIFF_ID" });
+      await liff.init({ liffId: "2007869717-lEOgQPdR" });
+      const profile = await liff.getProfile();
+      const user_ID = profile.userId
 
       // FastAPI に選択した機種を送る
-      const res = await fetch(`https://your-domain/api/flex_message?model=${encodeURIComponent(model)}`);
+      const res = await fetch(`https://smartmenu-api.onrender.com/api/flex_message?model=${encodeURIComponent(model)}&user_ID=${encodeURIComponent(user_ID)}`);
       const data = await res.json();
 
-      await liff.sendMessages([ data ]);  // Flexメッセージ送信
       liff.closeWindow(); // LIFFを閉じてLINEに戻る
     }
   </script>
