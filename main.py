@@ -35,9 +35,9 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 #     ngrok.set_auth_token(ngrok_token)
 
 # プルダウンメニュー呼び出し
-@app.get("/smartmenu", response_class=HTMLResponse)
+@app.get("/dropdown_iphone.html", response_class=HTMLResponse)
 async def show_dropdown(request: Request):
-    return templates.TemplateResponse("dropdown.html", {"request": request})
+    return templates.TemplateResponse("dropdown_iphone.html", {"request": request})
 
 @app.post("/callback")
 async def callback(request: Request, x_line_signature: str = Header(None)):
